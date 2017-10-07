@@ -1,0 +1,84 @@
+<div class="signup-page container-fluid">
+    
+    <div class="row justify-content-center">
+        <div class="col-auto">
+            <div class="card bg-light">
+                <div class="card-header">
+                    <h4>Sign up</h4>
+                </div>
+                <div class="card-body">
+                    <div class="prompt-group">
+                        <p *ngIf="prompt.message != ''" [class]="prompt.type">{{prompt.message}}</p>
+                    </div>
+                    <form onsubmit="return false">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control" id="username" aria-describedby="emailHelp"
+                                   placeholder="Enter your username" #username required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
+                                   placeholder="Enter your email address" #email required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password" placeholder="Enter your password"
+                                   #password required>
+                        </div>
+                        <div class="form-group">
+                            <label for="rePassword">Confirm password</label>
+                            <input type="password" class="form-control" id="rePassword"
+                                   placeholder="Re-enter your password"
+                                   #rePassword required>
+                        </div>
+                        <div class="form-group">
+                            <label for="location">Location
+                                <small> [optional]</small>
+                            </label>
+                            <input type="text" class="form-control" id="location"
+                                   placeholder="Enter your location [optional]"
+                                   #location>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input type="checkbox" id="rememberMe" class="form-check-input" #checkbox required>
+                                I agree to the <a data-toggle="modal" data-target="#modalLong">term of service</a>.
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-block" id="submit" (click)="signup()">Submit
+                        </button>
+                    </form>
+                
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="modalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLongTitle">Term of Service</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    If you want to sign up... then you have to agree with anything we say!!!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="setCheckbox(false)">
+                        F**k off
+                    </button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="setCheckbox(true)">I
+                        Agree
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

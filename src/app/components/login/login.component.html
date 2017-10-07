@@ -10,7 +10,7 @@
                     <div class="prompt-group">
                         <p *ngIf="prompt.message != ''" [class]="prompt.type">{{prompt.message}}</p>
                     </div>
-                    <form>
+                    <form onsubmit="return false">
                         <div class="form-group">
                             <label for="email">{{currentLoginMethod}}</label>
                             <input type="text" class="form-control" id="email" aria-describedby="emailHelp"
@@ -30,12 +30,13 @@
                                 Remember me
                             </label>
                         </div>
+        
+                        <button type="submit" class="btn btn-success btn-block" (click)="login()">Log in</button>
                     </form>
                     
                     <div class="button-group">
-                        <button class="btn btn-success btn-block" (click)="login()">Log in</button>
                         <p>OR</p>
-                        <button class="btn btn-primary btn-block" (click)="signup()">Sign up</button>
+                        <a class="btn btn-primary btn-block" id="signup" role="button" href="/signup">Sign up</a>
                     </div>
                 </div>
             </div>

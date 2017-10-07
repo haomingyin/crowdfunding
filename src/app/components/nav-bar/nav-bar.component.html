@@ -23,7 +23,7 @@
         <!--</form>-->
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link" href="/login">LOG IN</a>
+                <a class="nav-link" [href]="user ? '#' : '/login'">{{user ? user.username : 'Log in'}}</a>
             </li>
         </ul>
     </div>

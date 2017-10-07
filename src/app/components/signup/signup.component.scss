@@ -1,0 +1,42 @@
+div.signup-page {
+    padding-top: 150px;
+
+    .card {
+        width: 400px;
+
+        .card-header {
+            text-align: center;
+        }
+
+        .card-body {
+
+            .prompt-group {
+                font-size: 14px;
+                .error {
+                    color: #ff3750;
+                }
+                .normal {
+                    color: #5f5f5f;
+                }
+            }
+
+            form {
+                small {
+                    color: #a7a7a7;
+                }
+                .form-check-label {
+                    font-size: 13px;
+                    a {
+                        color: #5567ff;
+                    }
+                }
+
+                #submit {
+                    margin-top: 30px;
+                    margin-bottom: 20px;
+                }
+            }
+        }
+    }
+}
+

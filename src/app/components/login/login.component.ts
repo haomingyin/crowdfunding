@@ -52,5 +52,8 @@ export class LoginComponent {
     }
 
     signup() {
+        this.userService.logout()
+            .then(res => console.log('logged out'))
+            .catch(err => console.error(err));
     }
 }

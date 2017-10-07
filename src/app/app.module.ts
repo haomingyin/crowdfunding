@@ -8,12 +8,14 @@ import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { LoginComponent } from './components/login/login.component';
 import { MainComponent } from './components/main/main.component';
 import { UserService } from './services/user.service';
+import { SignupComponent } from './components/signup/signup.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         NavBarComponent,
         LoginComponent,
+        SignupComponent,
         MainComponent
     ],
     imports: [
