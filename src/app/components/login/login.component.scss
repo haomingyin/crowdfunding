@@ -1,5 +1,71 @@
 div.login-page {
-    padding-top: 70px;
+    padding-top: 150px;
+
+    .card {
+        width: 400px;
+
+        .card-header {
+            text-align: center;
+        }
+
+        .card-body {
+
+            .prompt-group {
+                font-size: 14px;
+                .error {
+                    color: #ff3750;
+                }
+                .normal {
+                    color: #5f5f5f;
+                }
+            }
+
+            form {
+
+                #emailHelp {
+                    padding-left: 2px;
+                    a {
+                        color: #5567ff;
+                    }
+                }
+
+                .form-check-label {
+                    font-size: 13px;
+                }
+            }
+
+            .button-group {
+                text-align: center;
+                width: auto;
+
+                p {
+                    text-align: center;
+                    width: auto;
+                    padding-top: 15px;
+                    margin-left: 10px;
+                    margin-right: 10px;
+                    color: #a7a7a7;
+                    font-size: 13px;
+                    display: table;
+                    white-space: nowrap;
+                    &:before, &:after {
+                        border-top: 1px solid #c9c9c9;
+                        content: '';
+                        display: table-cell;
+                        position: relative;
+                        top: 0.5em;
+                        width: 50%;
+                    }
+                    &:before {
+                        right: 2%;
+                    }
+                    &:after {
+                        left: 2%;
+                    }
+                }
+            }
+        }
+    }
 }
 
 //.login-body {

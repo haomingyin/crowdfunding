@@ -6,6 +6,7 @@ import User from '../models/user';
 @Injectable()
 export class UserService {
     private apiUrl = environment.apiUrl + 'users';
+    user: User;
 
     constructor(private http: HttpClient) {
     }
@@ -19,7 +20,7 @@ export class UserService {
             }).subscribe(res => {
                 if (res.status === 200) {
                     const body = JSON.parse(res.body);
-                    resolve(new User(body.id, body.username, body.location, body.string));
+                    resolve(new User(body.id, body.username, body.location, body.email));
                 } else {
                     reject(res.body);
                 }
@@ -29,7 +30,7 @@ export class UserService {
 
     login(credential: {username?: string, email?: string, password: string}): Promise<User> {
         let httpParams = new HttpParams;
-        if (credential.username) {
+        if (credential['username']) {
             httpParams = httpParams.append('username', credential.username);
         } else {
             httpParams = httpParams.append('email', credential.email);
@@ -37,7 +38,7 @@ export class UserService {
         httpParams = httpParams.append('password', credential.password);
 
         return new Promise<User>(((resolve, reject) => {
-            this.http.post(this.apiUrl, null, {
+            this.http.post(`${this.apiUrl}/login`, null, {
                 observe: 'response',
                 params: httpParams,
                 responseType: 'text'
@@ -45,11 +46,18 @@ export class UserService {
                 if (res.status === 200) {
                     const body = JSON.parse(res.body);
                     this.getUser(body.id, body.token)
-                        .then(user => resolve(user))
+                        .then(user => {
+                            this.user = user;
+                            this.user.id = Number(body.id);
+                            this.user.token = body.token;
+                            resolve(user);
+                        })
                         .catch(err => reject(err));
                 } else {
                     reject(res.body);
                 }
+            }, err => {
+                reject(err.error);
             });
         }));
     }
