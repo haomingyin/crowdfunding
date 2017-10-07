@@ -1,6 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { UserService } from '../../services/user.service';
-import User from '../../models/user';
 
 @Component({
     selector: 'app-login',
@@ -9,8 +8,6 @@ import User from '../../models/user';
 })
 
 export class LoginComponent {
-    private user: User;
-
     @ViewChild('email') emailEle: ElementRef;
     @ViewChild('password') passwordEle: ElementRef;
 

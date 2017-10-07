@@ -14,7 +14,7 @@
                 <a class="nav-link" href="#">SUPPORT PROJECTS</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">JOIN US</a>
+                <a class="nav-link" href="/signup">JOIN US</a>
             </li>
         </ul>
         <!--<form class="form-inline my-2 my-lg-0">-->
@@ -23,7 +23,11 @@
         <!--</form>-->
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link" [href]="user ? '#' : '/login'">{{user ? user.username : 'Log in'}}</a>
+                <a class="nav-link" [href]="user ? '#' : '/login'">{{user ? 'Hi, ' + user.username : 'Log in'}}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="logout"
+                   *ngIf="user" (click)="logout()"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
             </li>
         </ul>
     </div>

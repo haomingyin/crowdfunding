@@ -20,4 +20,10 @@ export class NavBarComponent implements OnInit {
             this.user = user;
         });
     }
+
+    logout(): void {
+        this.userService.logout()
+            .then(res => console.log('logged out'))
+            .catch(err => console.error(err));
+    }
 }

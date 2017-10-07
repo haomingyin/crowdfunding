@@ -1,6 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { UserService } from '../../services/user.service';
-import User from '../../models/user';
 
 @Component({
     selector: 'app-signup',
@@ -9,8 +8,6 @@ import User from '../../models/user';
 })
 
 export class SignupComponent {
-    private user: User;
-
     @ViewChild('username') usernameEle: ElementRef;
     @ViewChild('email') emailEle: ElementRef;
     @ViewChild('password') passwordEle: ElementRef;
@@ -53,14 +50,12 @@ export class SignupComponent {
         }
         this.userService.signup(body)
             .then(user => {
-                console.dir(user);
-                this.user = user;
                 this.prompt.type = 'normal';
                 this.prompt.message = `Hi ${user.username}! Thanks for signing up :)`;
             })
             .catch(err => {
                 this.prompt.type = 'error';
-                this.prompt.message = err;
+                this.prompt.message = `Sorry, the username or email was registered by others.`;
             });
     }
 }
