@@ -1,0 +1,49 @@
+footer {
+    background-color: #353539;
+    width: 100vw;
+    padding-top: 50px;
+    color: white;
+
+    .log {
+        img {
+            max-width: 100px;
+        }
+    }
+
+    .container {
+        width: 1400px;
+
+        ul {
+            list-style-type: none;
+
+            .title {
+                font-size: 17px;
+                margin-bottom: 10px;
+            }
+
+            li {
+                font-size: 12px;
+                margin-bottom: 5px;
+            }
+        }
+
+        .contact {
+            font-size: 25px;
+        }
+
+        .contact-us-btn {
+            margin-top: 20px;
+            width: 130px;
+            height: 40px;
+            border-radius: 20px;
+        }
+    }
+
+    .copyright {
+        background-color: black;
+        color: #b6b6b6;
+        margin-top: 50px;
+        padding-top: 15px;
+        font-size: 12px;
+    }
+}

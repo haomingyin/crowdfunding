@@ -9,11 +9,13 @@ import { LoginComponent } from './components/login/login.component';
 import { MainComponent } from './components/main/main.component';
 import { UserService } from './services/user.service';
 import { SignupComponent } from './components/signup/signup.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         NavBarComponent,
+        FooterComponent,
         LoginComponent,
         SignupComponent,
         MainComponent

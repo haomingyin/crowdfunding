@@ -14,6 +14,7 @@ export class SignupComponent {
     @ViewChild('rePassword') rePasswordEle: ElementRef;
     @ViewChild('location') locationEle: ElementRef;
     @ViewChild('checkbox') checkboxEle: ElementRef;
+    @ViewChild('submit') submitEle: ElementRef;
 
     prompt = {type: 'error', message: ''};
 
@@ -48,14 +49,18 @@ export class SignupComponent {
         if (this.locationEle.nativeElement.value.trim() !== '') {
             body['location'] = this.locationEle.nativeElement.value;
         }
+        this.submitEle.nativeElement.disabled = true;
         this.userService.signup(body)
             .then(user => {
                 this.prompt.type = 'normal';
                 this.prompt.message = `Hi ${user.username}! Thanks for signing up :)`;
+                this.submitEle.nativeElement.disabled = false;
             })
             .catch(err => {
                 this.prompt.type = 'error';
                 this.prompt.message = `Sorry, the username or email was registered by others.`;
+                this.submitEle.nativeElement.disabled = false;
+                console.error(err);
             });
     }
 }

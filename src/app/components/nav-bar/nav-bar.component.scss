@@ -1,17 +1,64 @@
 #mainNav {
-    -webkit-box-shadow: 0px 2px 10px -1px #000;
-    -moz-box-shadow: 5px 5px 5px #000;
-    box-shadow: 0 2px 10px -1px #000;
-    z-index: 999;
+    -webkit-box-shadow: 0px 2px 10px -1px #bbb;
+    -moz-box-shadow: 5px 5px 5px #bbb;
+    box-shadow: 0 2px 10px -1px #bbb;
+    z-index: 100;
     align-content: center;
     position: fixed;
     width: 100vw;
+    height: 70px;
+    background-color: rgba(255, 255, 255, 0.9) !important;
 
-    .nav-item {
-        margin: 0 10px 0 10px;
+    .navbar-brand {
+        text-align: center;
+        margin: -5px 30px 0 10px;
     }
 
-    #logout {
-        font-size: 17px;
+    .navbar-nav {
+        .nav-item {
+            margin: 0 10px 0 10px;
+            text-align: center;
+            font-weight: 700;
+            text-transform: uppercase;
+
+            a {
+                color: #4b4b4b;
+                position: relative;
+                text-decoration: none;
+            }
+
+            a:hover, a:focus {
+                color: #0070FF;
+                background-color: transparent;
+            }
+
+            a:before {
+                content: "";
+                position: absolute;
+                width: 100%;
+                height: 2px;
+                bottom: 0;
+                left: 0;
+                background-color: #0070FF;
+                visibility: hidden;
+                -webkit-transform: scaleX(0);
+                transform: scaleX(0);
+                -webkit-transition: all 0.3s ease-in-out 0s;
+                transition: all 0.3s ease-in-out 0s;
+            }
+
+            a:hover:before {
+                visibility: visible;
+                -webkit-transform: scaleX(1);
+                transform: scaleX(1);
+            }
+        }
+
+        #logout {
+            font-size: 23px;
+            top: -13%;
+            left: -30%;
+        }
     }
 }
+
