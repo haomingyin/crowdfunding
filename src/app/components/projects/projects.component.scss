@@ -1,0 +1,29 @@
+.projects-page {
+    padding-bottom: 100px;
+
+    .projects-banner {
+        height: 400px;
+        background: #0070FF;
+        background: -webkit-linear-gradient(to left, #00d2ff, #0070FF);
+        background: linear-gradient(to left, #00d2ff, #0070FF);
+        padding-top: 200px;
+        text-align: center;
+        color: white;
+    }
+
+    .container {
+        padding-top: 50px;
+
+        .card {
+            width: 260px;
+            margin-top: 20px;
+            margin-right: 10px;
+
+            img {
+                height: 200px;
+                background-color: #969696;
+            }
+        }
+    }
+
+}
