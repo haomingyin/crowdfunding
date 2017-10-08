@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    apiUrl: 'http://csse-s365.canterbury.ac.nz:4879/api/v2/'
+    apiUrl: 'https://api.haomingyin.com/api/v2/'
 };

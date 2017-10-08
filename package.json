@@ -4,12 +4,14 @@
     "license": "MIT",
     "scripts": {
         "ng": "ng",
-        "start": "ng serve --port $PORT || 8080",
+        "start": "ng serve --port $PORT --env=prod",
         "build": "ng build",
         "test": "ng test",
         "lint": "ng lint",
         "e2e": "ng e2e",
-        "dev": "ng serve --port 8080 --env=prod"
+        "dev": "ng serve --port 8080 --env=seng",
+        "home": "ng serve --port 8080",
+        "postinstall": "ng build --aot -prod"
     },
     "private": true,
     "dependencies": {
