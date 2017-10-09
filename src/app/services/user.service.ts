@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import User from '../models/user';
 import { Subject } from 'rxjs/Subject';
+import { User } from '../models/user';
 
 @Injectable()
 export class UserService {
@@ -21,8 +21,7 @@ export class UserService {
                 responseType: 'text'
             }).subscribe(res => {
                 if (res.status === 200) {
-                    const body = JSON.parse(res.body);
-                    this.storeUserSession(new User(body.id, body.username, body.location, body.email, token));
+                    this.storeUserSession(JSON.parse(res.body) as User);
                     resolve(this.user);
                 } else {
                     reject(res.body);
@@ -33,7 +32,7 @@ export class UserService {
 
     loadUserSession(): void {
         if (sessionStorage.getItem('user')) {
-            this.user = User.restoreUser(JSON.parse(sessionStorage.getItem('user')));
+            this.user = JSON.parse(sessionStorage.getItem('user')) as User;
             setTimeout(() => this.userSubject.next(this.user), 50);
         }
     }

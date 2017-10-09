@@ -1,4 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { environment } from '../../../environments/environment';
+import { ProjectService } from '../../services/project.service';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { ProjectBrief } from '../../models/project';
+
+import _ from 'lodash';
 
 @Component({
     selector: 'app-projects',
@@ -6,7 +12,43 @@ import { Component } from '@angular/core';
     styleUrls: ['projects.component.scss']
 })
 
-export class ProjectsComponent {
-    constructor() {
+export class ProjectsComponent implements OnInit {
+    projects = new BehaviorSubject<ProjectBrief[]>([]);
+    reachedEnd = false;
+    isLoading = false;
+
+    baseUrl = environment.apiUrl;
+
+    startIndex = 0;
+    count = 4;
+
+    constructor(private projectService: ProjectService) {
     }
-};
+
+    ngOnInit() {
+        this.getProjects();
+    }
+
+    onScroll(): void {
+        this.getProjects();
+    }
+
+    getProjects(): void {
+        if (!this.reachedEnd) {
+            this.isLoading = true;
+            this.projectService.getProjectBriefs({startIndex: this.startIndex, count: this.count})
+                .then(newProjects => {
+                    this.reachedEnd = newProjects.length === 0;
+                    this.isLoading = false;
+                    this.startIndex += this.count;
+                    const currentProjects = this.projects.getValue();
+                    this.projects.next(_.concat(currentProjects, newProjects));
+                })
+                .catch(err => console.log(err));
+        }
+    }
+
+    scrollToTop(): void {
+        window.scrollTo(0, 0);
+    }
+}
