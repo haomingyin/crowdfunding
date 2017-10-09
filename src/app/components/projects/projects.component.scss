@@ -12,8 +12,35 @@
         color: white;
     }
 
-    .container {
-        padding-top: 50px;
+    .projects-search {
+        padding-top: 30px;
+
+        .search-form {
+            form {
+                input {
+                    width: 400px;
+                }
+                a {
+                    color: #0070FF;
+                }
+                a:hover {
+                    color: white;
+                }
+            }
+
+            .options-toggle {
+                margin: 10px;
+            }
+        }
+
+        .card-body {
+            max-width: 220px !important;
+            color: #5f5f5f;
+        }
+    }
+
+    .projects-card {
+        padding-top: 20px;
 
         .card {
             width: 260px;

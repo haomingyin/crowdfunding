@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Subject } from 'rxjs/Subject';
-import { User } from '../models/user';
+import {Injectable} from '@angular/core';
+import {environment} from '../../environments/environment';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {Subject} from 'rxjs/Subject';
+import {User} from '../models/user';
 
 @Injectable()
 export class UserService {
@@ -11,6 +11,10 @@ export class UserService {
     userSubject = new Subject<User>(); // mainly used to notify the places where need to display user info.
 
     constructor(private http: HttpClient) {
+    }
+
+    isLoggedIn(): boolean {
+        return !(this.user == null);
     }
 
     private getUser(userId: number, token: string): Promise<User> {

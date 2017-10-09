@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { environment } from '../../../environments/environment';
-import { ProjectService } from '../../services/project.service';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { ProjectBrief } from '../../models/project';
+import {Component, OnInit} from '@angular/core';
+import {environment} from '../../../environments/environment';
+import {ProjectService} from '../../services/project.service';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {ProjectBrief} from '../../models/project';
 
 import _ from 'lodash';
+import {UserService} from '../../services/user.service';
 
 @Component({
     selector: 'app-projects',
@@ -22,7 +23,8 @@ export class ProjectsComponent implements OnInit {
     startIndex = 0;
     count = 4;
 
-    constructor(private projectService: ProjectService) {
+    constructor(private projectService: ProjectService,
+                private userService: UserService) {
     }
 
     ngOnInit() {
@@ -50,5 +52,9 @@ export class ProjectsComponent implements OnInit {
 
     scrollToTop(): void {
         window.scrollTo(0, 0);
+    }
+
+    isLoggedIn(): boolean {
+        return this.userService.isLoggedIn();
     }
 }
