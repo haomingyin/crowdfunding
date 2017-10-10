@@ -1,3 +1,117 @@
 .container {
     padding-top: 120px;
+    padding-bottom: 50px;
+    color: #7c7c7c;
+
+    .project-header {
+        padding: 10px;
+
+        h1 {
+            color: #5f5f5f;
+            font-weight: 700;
+        }
+    }
+
+    .project-body {
+
+        .project-image img {
+            height: 400px;
+            width: 100%;
+            object-fit: cover;
+            -webkit-box-shadow: 5px 5px 20px 1px #ccc;
+            -moz-box-shadow: 5px 5px 1px #ccc;
+            box-shadow: 5px 5px 20px 1px #ccc;
+        }
+
+        .project-brief {
+            .card {
+                width: 450px;
+                color: #7c7c7c;
+                font-size: 16px;
+                -webkit-box-shadow: 5px 5px 20px 1px #eee;
+                -moz-box-shadow: 5px 5px 1px #eee;
+                box-shadow: 5px 5px 20px 1px #eee;
+
+                strong {
+                    font-weight: 700;
+                    color: #0077FF;
+                }
+
+                .funding-target {
+                    vertical-align: bottom;
+                    strong {
+                        font-size: 28px;
+                    }
+                }
+
+                .funding-backers {
+                    padding-top: 20px;
+                    vertical-align: bottom;
+                    strong {
+                        font-size: 20px;
+                    }
+                }
+
+                .creation-date {
+                    vertical-align: bottom;
+                    strong {
+                        font-size: 20px;
+                    }
+                }
+
+                .donate-form {
+                    margin-top: 20px;
+                }
+
+                .remind-me {
+                    float: right;
+                    margin-top: 20px;
+                    i {
+                        padding: 10px;
+                    }
+                }
+
+            }
+        }
+
+        .project-creators {
+            .creator {
+                i.fa-user {
+                    font-size: 35px;
+                }
+                i, p {
+                    display: inline-block;
+                    vertical-align: middle;
+                    margin: 0;
+                }
+            }
+        }
+
+        .project-backers {
+            .backer {
+                i.fa-user {
+                    font-size: 35px;
+                }
+                i, p {
+                    display: inline-block;
+                    vertical-align: middle;
+                    margin: 0;
+                }
+                .amount {
+                    color: #0077FF;
+                    font-weight: 700;
+                    float: right;
+                    line-height: 2.2em;
+                }
+            }
+        }
+
+        .project-detail {
+            .card {
+                -webkit-box-shadow: 5px 5px 20px 1px #eee;
+                -moz-box-shadow: 5px 5px 1px #eee;
+                box-shadow: 5px 5px 20px 1px #eee;
+            }
+        }
+    }
 }

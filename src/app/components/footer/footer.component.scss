@@ -1,19 +1,28 @@
+$large-size: 992px;
+$medium-size: 768px;
+$small-size: 576px;
+
 footer {
     background-color: #353539;
     padding-top: 50px;
     color: white;
     width: 100vw;
 
-    .logo {
+    @media screen and (max-width: $medium-size) {
         text-align: center;
+    }
+
+    .logo {
         padding-bottom: 20px;
         img {
             max-width: 200px;
+            @media screen and (max-width: $large-size) {
+                max-width: 150px;
+            }
         }
     }
 
     .container {
-        text-align: center;
 
         ul {
             padding-left: 0;

@@ -48,13 +48,15 @@
 
         .card {
             width: 260px;
+            height: 570px;
             margin-top: 20px;
             margin-right: 15px;
 
             img {
-                //width: 260px;
+                width: 260px;
+                height: 350px;
                 background-color: #969696;
-                background-size: cover;
+                object-fit: cover;
             }
 
             .card-title {
