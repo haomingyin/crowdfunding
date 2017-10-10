@@ -10,26 +10,30 @@
         padding-top: 200px;
         text-align: center;
         color: white;
+        width: 100vw;
     }
 
     .projects-search {
         padding-top: 30px;
 
         .search-form {
-            form {
-                input {
-                    width: 400px;
-                }
+            input {
+                width: 400px;
+            }
+
+            .btn-group {
                 a {
                     color: #0070FF;
                 }
-                a:hover {
+                a.dropdown-toggle:hover, a.dropdown-toggle:active {
                     color: white;
                 }
             }
 
-            .options-toggle {
-                margin: 10px;
+            .btn-group .show {
+                a.dropdown-toggle {
+                    color: white !important;
+                }
             }
         }
 
