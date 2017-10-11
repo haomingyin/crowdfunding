@@ -1,20 +1,19 @@
-import {Injectable} from '@angular/core';
-import {environment} from '../../environments/environment';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {Subject} from 'rxjs/Subject';
-import {User} from '../models/user';
+import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { User } from '../models/user';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class UserService {
     private apiUrl = environment.apiUrl + 'users';
-    user: User;
-    userSubject = new Subject<User>(); // mainly used to notify the places where need to display user info.
+    userSubject = new BehaviorSubject<User>(null); // mainly used to notify the places where need to display user info.
 
     constructor(private http: HttpClient) {
     }
 
     isLoggedIn(): boolean {
-        return !(this.user == null);
+        return this.userSubject.getValue() != null;
     }
 
     private getUser(userId: number, token: string): Promise<User> {
@@ -26,7 +25,7 @@ export class UserService {
             }).subscribe(res => {
                 if (res.status === 200) {
                     this.storeUserSession(JSON.parse(res.body) as User);
-                    resolve(this.user);
+                    resolve(this.userSubject.getValue());
                 } else {
                     reject(res.body);
                 }
@@ -36,19 +35,16 @@ export class UserService {
 
     loadUserSession(): void {
         if (sessionStorage.getItem('user')) {
-            this.user = JSON.parse(sessionStorage.getItem('user')) as User;
-            setTimeout(() => this.userSubject.next(this.user), 50);
+            this.userSubject.next(JSON.parse(sessionStorage.getItem('user')) as User);
         }
     }
 
     private storeUserSession(user: User): void {
-        this.user = user;
         sessionStorage.setItem('user', JSON.stringify(user));
-        this.userSubject.next(this.user); // notify observers
+        this.userSubject.next(user); // notify observers
     }
 
     private removeUserSession(): void {
-        this.user = null;
         sessionStorage.removeItem('user');
         this.userSubject.next(null); // notify observers
     }
@@ -106,7 +102,7 @@ export class UserService {
 
     logout(): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
-            if (!this.user) {
+            if (!this.userSubject.getValue()) {
                 reject('You haven\'t logged in');
             } else {
                 this.http.post(`${this.apiUrl}/logout`, null, {
@@ -127,6 +123,6 @@ export class UserService {
     }
 
     private getHeaders(): HttpHeaders {
-        return new HttpHeaders().append('X-Authorization', this.user.token);
+        return new HttpHeaders().append('X-Authorization', this.userSubject.getValue().token);
     }
 }

@@ -48,9 +48,8 @@ export class ProjectService {
 
     getProject(projectId: number): Promise<Project> {
         return new Promise<Project>(((resolve, reject) => {
-            this.http.get(`${this.apiUrl}`, {
+            this.http.get(`${this.apiUrl}/${projectId}`, {
                 observe: 'response',
-                params: new HttpParams().append('id', '' + projectId),
                 responseType: 'text'
             }).subscribe(res => {
                 if (res.status === 200) {

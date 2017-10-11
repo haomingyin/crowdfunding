@@ -76,12 +76,22 @@
 
         .project-creators {
             .creator {
-                i.fa-user {
-                    font-size: 35px;
+                .initial {
+                    text-align: center;
+                    font-weight: 700;
+                    padding-top: 8px;
+                    color: #0077FF;
+                    background-color: white;
+                    height: 40px;
+                    width: 40px;
+                    border-radius: 20px;
+
+                    -webkit-box-shadow: 0 2px 5px 2px #ddd;
+                    -moz-box-shadow: 0 2px 2px #ddd;
+                    box-shadow: 0 2px 5px 2px #ddd;
                 }
-                i, p {
+                p {
                     display: inline-block;
-                    vertical-align: middle;
                     margin: 0;
                 }
             }
@@ -89,19 +99,33 @@
 
         .project-backers {
             .backer {
-                i.fa-user {
-                    font-size: 35px;
+                .initial {
+                    text-align: center;
+                    font-weight: 700;
+                    padding-top: 8px;
+                    color: #0077FF;
+                    background-color: white;
+                    height: 40px;
+                    width: 40px;
+                    border-radius: 20px;
+
+                    -webkit-box-shadow: 0 2px 5px 2px #ddd;
+                    -moz-box-shadow: 0 2px 2px #ddd;
+                    box-shadow: 0 2px 5px 2px #ddd;
                 }
-                i, p {
+                p, i {
                     display: inline-block;
-                    vertical-align: middle;
                     margin: 0;
+                }
+                .anonymous {
+                    font-size: 23px;
+                    font-weight: 400;
                 }
                 .amount {
                     color: #0077FF;
                     font-weight: 700;
                     float: right;
-                    line-height: 2.2em;
+                    line-height: 3em;
                 }
             }
         }
@@ -111,6 +135,17 @@
                 -webkit-box-shadow: 5px 5px 20px 1px #eee;
                 -moz-box-shadow: 5px 5px 1px #eee;
                 box-shadow: 5px 5px 20px 1px #eee;
+            }
+
+            .reward-detail {
+                .reward-title {
+                    color: #0077FF;
+                    margin: 0;
+                    strong {
+                        font-weight: 700;
+                        font-size: 23px;
+                    }
+                }
             }
         }
     }
