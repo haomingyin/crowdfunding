@@ -1,11 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {environment} from '../../../environments/environment';
-import {ProjectService} from '../../services/project.service';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {ProjectBrief} from '../../models/project';
+import { Component, OnInit } from '@angular/core';
+import { environment } from '../../../environments/environment';
+import { ProjectService } from '../../services/project.service';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { ProjectBrief } from '../../models/project';
 
 import _ from 'lodash';
-import {UserService} from '../../services/user.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
     selector: 'app-projects',
@@ -38,7 +38,7 @@ export class ProjectsComponent implements OnInit {
     getProjects(): void {
         if (!this.reachedEnd) {
             this.isLoading = true;
-            this.projectService.getProjectBriefs({startIndex: this.startIndex, count: this.count})
+            this.projectService.getProjectBriefs({startIndex: this.startIndex, count: this.count, options: {open: true}})
                 .then(newProjects => {
                     this.reachedEnd = newProjects.length === 0;
                     this.isLoading = false;

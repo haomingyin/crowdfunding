@@ -5,7 +5,12 @@
     </div>
     <div class="row project-body justify-content-start">
         <div class="col-md-7 d-flex flex-column project-image">
-            <img class="mb-4" src="{{baseUri + p.imageUri}}">
+            <img class="mb-4" *ngIf="p.imageUri" src="{{baseUri + p.imageUri}}">
+            <div class="upload-wrapper mb-4">
+                <input type="text" placeholder="Upload a project image..." disabled #uploadText>
+                <a class="btn btn-outline-primary" role="button">Browse</a>
+                <input type="file" name="upload-image" accept="image/*" #uploadFile (change)="uploadImage()">
+            </div>
             <div class="project-detail">
                 <div class="card mb-4">
                     <div class="card-header">
@@ -56,21 +61,22 @@
                         backers</p>
                     <p class="creation-date">Created on <strong>{{getPrettyDate(p.creationDate)}}</strong></p>
     
-                    <!--<div class="project-status">-->
-                    <!--<p class="form-check-inline">Project status: </p>-->
-                    <!--<div class="form-check form-check-inline">-->
-                    <!--<label class="form-check-label">-->
-                    <!--<input class="form-check-input" type="radio" name="statusToggle" id="project-open"-->
-                    <!--value="open"> open-->
-                    <!--</label>-->
-                    <!--</div>-->
-                    <!--<div class="form-check form-check-inline">-->
-                    <!--<label class="form-check-label">-->
-                    <!--<input class="form-check-input" type="radio" name="statusToggle" id="project-close"-->
-                    <!--value="close"> close-->
-                    <!--</label>-->
-                    <!--</div>-->
-                    <!--</div>-->
+                    <div class="project-status">
+                        <label class="form-check-inline prompt">Project status: </label>
+                        <div class="form-check form-check-inline">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="radio" name="statusToggle" id="project-open"
+                                       value="open" #toggleOpen [checked]="p.open" (click)="toggleStatus(true)"> open
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="radio" name="statusToggle" id="project-close"
+                                       value="close" #toggleClose [checked]="!p.open" (click)="toggleStatus(false)">
+                                close
+                            </label>
+                        </div>
+                    </div>
                     
                     
                     <div class="input-group donate-form">
@@ -114,6 +120,10 @@
         </div>
     </div>
 </div>
-<div class="container" *ngIf="!getProject()">
+<div class="container unavailable" *ngIf="!getProject()">
     <h1>Oops, the project is not available now :(</h1>
+    <h5>Possible reasons:</h5>
+    <p>The project has been removed</p>
+    <p>The project has been closed by its creators</p>
+    <p>Our developers have made some serious mistakes</p>
 </div>

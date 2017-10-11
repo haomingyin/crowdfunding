@@ -24,7 +24,7 @@ export class UserService {
                 responseType: 'text'
             }).subscribe(res => {
                 if (res.status === 200) {
-                    this.storeUserSession(JSON.parse(res.body) as User);
+                    this.storeUserSession(JSON.parse(res.body) as User, token);
                     resolve(this.userSubject.getValue());
                 } else {
                     reject(res.body);
@@ -39,7 +39,10 @@ export class UserService {
         }
     }
 
-    private storeUserSession(user: User): void {
+    private storeUserSession(user: User, token?: string): void {
+        if (token) {
+            user.token = token;
+        }
         sessionStorage.setItem('user', JSON.stringify(user));
         this.userSubject.next(user); // notify observers
     }

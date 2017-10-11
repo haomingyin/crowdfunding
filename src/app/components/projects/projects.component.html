@@ -8,8 +8,11 @@
             <form class="form-inline search-form">
                 <input class="form-control mr-sm-2" type="text" placeholder="Key words in title or subtitle"
                        aria-label="Search">
-                <div class="btn-group">
-                    <a role="button" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown"
+                <a role="button" class="btn btn-outline-primary search" *ngIf="!isLoggedIn()">
+                    Search
+                </a>
+                <div class="btn-group" *ngIf="isLoggedIn()">
+                    <a role="button" class="btn btn-outline-primary dropdown-toggle search" data-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false">
                         Search
                     </a>
@@ -17,7 +20,7 @@
                         <a class="dropdown-item" href="#">Projects I supported</a>
                         <a class="dropdown-item" href="#">Projects I created</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">All projects</a>
+                        <a class="dropdown-item" href="#">All open projects</a>
                     </div>
                 </div>
             </form>

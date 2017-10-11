@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectService } from '../../services/project.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Project } from '../../models/project';
@@ -20,13 +20,19 @@ export class ProjectDetailComponent implements OnInit {
     baseUri = environment.apiUrl;
     anonymous = 'anonymous';
 
-    constructor(private router: ActivatedRoute,
+    @ViewChild('uploadFile') uploadFileEle: ElementRef;
+    @ViewChild('uploadText') uploadTextEle: ElementRef;
+    @ViewChild('toggleOpen') toggleOpenEle: ElementRef;
+    @ViewChild('toggleClose') toggleCloseEle: ElementRef;
+
+    constructor(private activatedRouter: ActivatedRoute,
+                private router: Router,
                 private projectService: ProjectService,
                 private userService: UserService) {
     }
 
     ngOnInit() {
-        this.router.params.subscribe(params => {
+        this.activatedRouter.params.subscribe(params => {
             this.fetchProject(+params['id']);
         });
     }
@@ -50,6 +56,38 @@ export class ProjectDetailComponent implements OnInit {
 
     donate(): void {
 
+    }
+
+    toggleStatus(status: boolean): void {
+        this.projectService.toggleStatus(status,
+            this.project.getValue().id,
+            this.userService.userSubject.getValue().token)
+            .then(() => console.log('project toggled'))
+            .catch(err => {
+                this.toggleOpenEle.nativeElement.checked = !status;
+                this.toggleCloseEle.nativeElement.checked = status;
+                console.error(err);
+            });
+    }
+
+    uploadImage(): void {
+        const files = this.uploadFileEle.nativeElement.files;
+        const text = this.uploadTextEle.nativeElement;
+        if (files.length > 0) {
+            text.value = files[0].name;
+            const reader = new FileReader();
+            reader.onload = (event: any) => {
+                const buffer = event.target.result;
+                this.projectService.uploadImage(buffer,
+                    this.project.getValue().id,
+                    this.userService.userSubject.getValue().token)
+                    .then(() => {
+                        location.reload();
+                    })
+                    .catch(err => console.error(err));
+            };
+            reader.readAsArrayBuffer(files[0]);
+        }
     }
 
     isOwner(): boolean {

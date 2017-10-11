@@ -21,13 +21,11 @@
                 width: 400px;
             }
 
-            .btn-group {
-                a {
-                    color: #0070FF;
-                }
-                a.dropdown-toggle:hover, a.dropdown-toggle:active {
-                    color: white;
-                }
+            a {
+                color: #0070FF;
+            }
+            a.search:hover, a.search:active {
+                color: white;
             }
 
             .btn-group .show {
