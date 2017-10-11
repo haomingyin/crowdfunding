@@ -1,10 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { ProjectService } from '../../services/project.service';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Project } from '../../models/project';
-import { environment } from '../../../environments/environment';
-import { UserService } from '../../services/user.service';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {ProjectService} from '../../services/project.service';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Project} from '../../models/project';
+import {environment} from '../../../environments/environment';
+import {UserService} from '../../services/user.service';
 
 import _ from 'lodash';
 
@@ -46,7 +46,6 @@ export class ProjectDetailComponent implements OnInit {
 
     getProject(): Project {
         const p = this.project.getValue();
-        const user = this.userService.userSubject.getValue();
         if (p && (p.open || this.isOwner())) {
             return p;
         }
