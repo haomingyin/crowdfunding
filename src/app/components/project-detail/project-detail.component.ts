@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ProjectService } from '../../services/project.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Project } from '../../models/project';
@@ -26,7 +26,6 @@ export class ProjectDetailComponent implements OnInit {
     @ViewChild('toggleClose') toggleCloseEle: ElementRef;
 
     constructor(private activatedRouter: ActivatedRoute,
-                private router: Router,
                 private projectService: ProjectService,
                 private userService: UserService) {
     }
