@@ -1,12 +1,13 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {ProjectService} from '../../services/project.service';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {Project} from '../../models/project';
-import {environment} from '../../../environments/environment';
-import {UserService} from '../../services/user.service';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { ProjectService } from '../../services/project.service';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Project } from '../../models/project';
+import { environment } from '../../../environments/environment';
+import { UserService } from '../../services/user.service';
 
 import _ from 'lodash';
+import { Backer } from '../../models/backer';
 
 @Component({
     selector: 'app-project-detail',
@@ -19,6 +20,8 @@ export class ProjectDetailComponent implements OnInit {
     project = new BehaviorSubject<Project>(null);
     baseUri = environment.apiUrl;
     anonymous = 'anonymous';
+
+    originBackers: Backer[];
 
     @ViewChild('uploadFile') uploadFileEle: ElementRef;
     @ViewChild('uploadText') uploadTextEle: ElementRef;
@@ -50,19 +53,24 @@ export class ProjectDetailComponent implements OnInit {
 
     getProject(): Project {
         const p = this.project.getValue();
-        if (p && (p.open || this.isOwner())) {
+        if (p && (p.open || this.isOwner() || this.isBacker())) {
             return p;
         }
         return null;
     }
 
     sendPledge(): void {
-        this.projectService.pledge(this.userService.userSubject.getValue(),
-            Number(this.pledgeTextEle.nativeElement.value),
-            this.anonymousCheckEle.nativeElement.checked,
-            this.project.getValue().id)
-            .then(res => console.log('Pledged successfully.'))
-            .catch(err => console.log(err));
+        const amount = Math.round(this.pledgeTextEle.nativeElement.value * 100);
+        if (amount > 0) {
+            this.projectService.pledge(this.userService.userSubject.getValue(),
+                amount,
+                this.anonymousCheckEle.nativeElement.checked,
+                this.project.getValue().id)
+                .then(res => console.log('Pledged successfully.'))
+                .catch(err => console.log(err));
+        } else {
+            console.error('Pledge amount has to greater than 0');
+        }
     }
 
     toggleStatus(status: boolean): void {
@@ -116,9 +124,17 @@ export class ProjectDetailComponent implements OnInit {
         return false;
     }
 
+    isBacker(): boolean {
+        if (this.isLoggedIn() && this.project.getValue()) {
+            return _.some(this.originBackers, ['id', this.userService.userSubject.getValue().id]);
+        }
+        return false;
+    }
+
     filterBackers(p: Project): Project {
         let anonymousIndex = -1;
         const backers = [];
+        this.originBackers = p.backers;
 
         for (let i = 0; i < Math.min(p.backers.length, 5); i++) {
             if (p.backers[i].username === this.anonymous) {

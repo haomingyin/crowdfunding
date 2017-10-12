@@ -34,7 +34,8 @@
                             <div class="tab-pane fade" id="rewards" role="tabpanel"
                                  aria-labelledby="rewards-tab">
                                 <div class="reward-detail mb-4" *ngFor="let reward of p.rewards">
-                                    <p class="card-text reward-title">Pledge <strong>${{reward.amount}}</strong> or more
+                                    <p class="card-text reward-title">Pledge <strong>${{reward.amount/100}}</strong> or
+                                        more
                                     </p>
                                     <p class="card-text">{{reward.description}}</p>
                                 </div>
@@ -48,8 +49,8 @@
         <div class="project-brief col-md-5 d-flex flex-column">
             <div class="card align-self-start mb-4">
                 <div class="card-body">
-                    <p class="funding-target"><strong>${{getPrettyMoney(p.progress.currentPledged)}}</strong> of
-                        ${{getPrettyMoney(p.target)}} goal</p>
+                    <p class="funding-target"><strong>${{getPrettyMoney(p.progress.currentPledged/100)}}</strong> of
+                        ${{getPrettyMoney(p.target/100)}} goal</p>
                     <div class="progress">
                         <div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0"
                              aria-valuemax="100"
@@ -59,8 +60,8 @@
                     <p class="funding-backers">Funded by <strong>{{getPrettyMoney(p.progress.numberOfBackers)}}</strong>
                         backers</p>
                     <p class="creation-date">Created on <strong>{{getPrettyDate(p.creationDate)}}</strong></p>
-
-                    <div class="project-status" *ngIf="isOwner()">
+    
+                    <div class="project-status" *ngIf="isOwner() || !p.open">
                         <div *ngIf="p.open">
                             <label class="form-check-inline prompt">Project status: </label>
                             <div class="form-check form-check-inline">
@@ -81,16 +82,20 @@
                         </div>
                         <p class="closed" *ngIf="!p.open">Project status: <strong>Closed</strong></p>
                     </div>
-
-
-                    <div class="input-group donate-form" *ngIf="!isOwner()">
+    
+    
+                    <div class="input-group donate-form" *ngIf="!isOwner() && isLoggedIn() && p.open">
                         <span class="input-group-addon" id="basic-addon1">$</span>
-                        <input type="text" class="form-control" placeholder="1,000,000" aria-label="donate amount"
-                               #pledgeText>
+                        <input type="number" class="form-control" placeholder="1,000,000" aria-label="donate amount"
+                               min="1" #pledgeText>
                         <span class="input-group-btn">
-                        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#pledgeModal">Donate Now</button>
-                    </span>
+                            <button class="btn btn-primary" type="button" data-toggle="modal"
+                                    data-target="#pledgeModal">Donate Now</button>
+                        </span>
                     </div>
+                    <button type="button" class="btn btn-primary btn-block" *ngIf="!isLoggedIn()" routerLink="/login">
+                        Donate Now
+                    </button>
                     <div class="remind-me">
                         <i class="fa fa-facebook-square" aria-hidden="true"></i>
                         <i class="fa fa-twitter-square" aria-hidden="true"></i>
@@ -116,9 +121,9 @@
                     <div class="card-text backer mt-4" *ngFor="let backer of p.backers">
                         <p class="card-text initial mr-2" *ngIf="!isAnonymous(backer.username)">
                             {{getInitial(backer.username)}}</p>
-                        <i class="fa fa-question initial mr-2 anonymous" *ngIf="isAnonymous(backer.username)"></i>
+                        <i class="fa fa-lock initial mr-2 anonymous" *ngIf="isAnonymous(backer.username)"></i>
                         <p class="card-text">{{backer.username}}</p>
-                        <p class="card-text amount">${{getPrettyMoney(backer.amount)}}</p>
+                        <p class="card-text amount">${{getPrettyMoney(backer.amount/100)}}</p>
                     </div>
                 </div>
             </div>
@@ -203,11 +208,8 @@
                         <label for="card-form-anonymous" class="ml-2 col-4">Pledge type</label>
                         <label class="col-7 checkbox-form">
                             <input type="checkbox" class="form-control" id="card-form-anonymous"
-                                   #anonymousCheck [checked]="!isLoggedIn()" [disabled]="!isLoggedIn()"> Anonymously
+                                   #anonymousCheck> Anonymously
                             <br/>
-                            <small *ngIf="!isLoggedIn()">To pledge under your name, please
-                                <a data-dismiss="modal" routerLink="/login">log in</a> first.
-                            </small>
                         </label>
                     </div>
                 </form>

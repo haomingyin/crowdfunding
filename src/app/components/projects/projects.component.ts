@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { ProjectService } from '../../services/project.service';
+import { ProjectService, SearchOptions } from '../../services/project.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ProjectBrief } from '../../models/project';
 
@@ -15,31 +15,71 @@ import { UserService } from '../../services/user.service';
 
 export class ProjectsComponent implements OnInit {
     projects = new BehaviorSubject<ProjectBrief[]>([]);
+    projectIds: number[] = [];
     reachedEnd = false;
     isLoading = false;
 
     baseUrl = environment.apiUrl;
 
     startIndex = 0;
-    count = 4;
+    count = 12;
+
+    so: SearchOptions = {
+        startIndex: this.startIndex,
+        count: this.count,
+        options: {}
+    };
 
     constructor(private projectService: ProjectService,
                 private userService: UserService) {
     }
 
     ngOnInit() {
-        this.getProjects();
+        this.getPublicProjects();
     }
 
     onScroll(): void {
         this.getProjects();
     }
 
-    getProjects(): void {
+    private resetSearchOptions() {
+        this.startIndex = 0;
+        this.reachedEnd = false;
+        this.projects.next([]);
+        this.projectIds = [];
+    }
+
+    getPledgedProjects(): void {
+        this.resetSearchOptions();
+        this.so.options = {backer: this.userService.userSubject.getValue().id};
+        this.getProjects();
+    }
+
+    getCreatorProjects(): void {
+        this.resetSearchOptions();
+        this.so.options = {creator: this.userService.userSubject.getValue().id};
+        this.getProjects();
+    }
+
+    getPublicProjects(): void {
+        this.resetSearchOptions();
+        this.so.options = {open: true};
+        this.getProjects();
+    }
+
+    private getProjects(): void {
+        this.so.startIndex = this.startIndex;
         if (!this.reachedEnd) {
             this.isLoading = true;
-            this.projectService.getProjectBriefs({startIndex: this.startIndex, count: this.count, options: {open: true}})
-                .then(newProjects => {
+            this.projectService.getProjectBriefs(this.so)
+                .then(res => {
+                    const newProjects = [];
+                    res.forEach(p => {
+                        if (!this.projectIds.includes(p.id)) {
+                            this.projectIds.push(p.id);
+                            newProjects.push(p);
+                        }
+                    });
                     this.reachedEnd = newProjects.length === 0;
                     this.isLoading = false;
                     this.startIndex += this.count;

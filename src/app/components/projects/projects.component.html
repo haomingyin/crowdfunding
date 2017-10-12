@@ -8,7 +8,8 @@
             <form class="form-inline search-form">
                 <input class="form-control mr-sm-2" type="text" placeholder="Key words in title or subtitle"
                        aria-label="Search">
-                <a role="button" class="btn btn-outline-primary search" *ngIf="!isLoggedIn()">
+                <a role="button" class="btn btn-outline-primary search" *ngIf="!isLoggedIn()"
+                   (click)="getPublicProjects()">
                     Search
                 </a>
                 <div class="btn-group" *ngIf="isLoggedIn()">
@@ -17,10 +18,10 @@
                         Search
                     </button>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Projects I supported</a>
-                        <a class="dropdown-item" href="#">Projects I created</a>
+                        <a class="dropdown-item" (click)="getPledgedProjects()">Projects I supported</a>
+                        <a class="dropdown-item" (click)="getCreatorProjects()">Projects I created</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">All open projects</a>
+                        <a class="dropdown-item" (click)="getPublicProjects()">All public projects</a>
                     </div>
                 </div>
             </form>
