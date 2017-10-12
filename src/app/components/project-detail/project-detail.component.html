@@ -6,7 +6,7 @@
     <div class="row project-body justify-content-start">
         <div class="col-md-7 d-flex flex-column project-image">
             <img class="mb-4" *ngIf="p.imageUri" src="{{baseUri + p.imageUri}}">
-            <div class="upload-wrapper mb-4">
+            <div class="upload-wrapper mb-4" *ngIf="isOwner()">
                 <input type="text" placeholder="Upload a project image..." disabled #uploadText>
                 <a class="btn btn-outline-primary" role="button">Browse</a>
                 <input type="file" name="upload-image" accept="image/*" #uploadFile (change)="uploadImage()">
@@ -40,12 +40,11 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
-        
+
         <div class="project-brief col-md-5 d-flex flex-column">
             <div class="card align-self-start mb-4">
                 <div class="card-body">
@@ -60,30 +59,36 @@
                     <p class="funding-backers">Funded by <strong>{{getPrettyMoney(p.progress.numberOfBackers)}}</strong>
                         backers</p>
                     <p class="creation-date">Created on <strong>{{getPrettyDate(p.creationDate)}}</strong></p>
-    
-                    <div class="project-status">
-                        <label class="form-check-inline prompt">Project status: </label>
-                        <div class="form-check form-check-inline">
-                            <label class="form-check-label">
-                                <input class="form-check-input" type="radio" name="statusToggle" id="project-open"
-                                       value="open" #toggleOpen [checked]="p.open" (click)="toggleStatus(true)"> open
-                            </label>
+
+                    <div class="project-status" *ngIf="isOwner()">
+                        <div *ngIf="p.open">
+                            <label class="form-check-inline prompt">Project status: </label>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="radio" name="statusToggle" id="project-open"
+                                           value="open" #toggleOpen [checked]="p.open">
+                                    open
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline" data-toggle="modal"
+                                 data-target="#closeProjectModal">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="radio" name="statusToggle" id="project-close"
+                                           value="close" #toggleClose [checked]="!p.open">
+                                    close
+                                </label>
+                            </div>
                         </div>
-                        <div class="form-check form-check-inline">
-                            <label class="form-check-label">
-                                <input class="form-check-input" type="radio" name="statusToggle" id="project-close"
-                                       value="close" #toggleClose [checked]="!p.open" (click)="toggleStatus(false)">
-                                close
-                            </label>
-                        </div>
+                        <p class="closed" *ngIf="!p.open">Project status: <strong>Closed</strong></p>
                     </div>
-                    
-                    
-                    <div class="input-group donate-form">
+
+
+                    <div class="input-group donate-form" *ngIf="!isOwner()">
                         <span class="input-group-addon" id="basic-addon1">$</span>
-                        <input type="text" class="form-control" placeholder="1,000,000" aria-label="donate amount">
+                        <input type="text" class="form-control" placeholder="1,000,000" aria-label="donate amount"
+                               #pledgeText>
                         <span class="input-group-btn">
-                        <button class="btn btn-primary" type="button">Donate Now</button>
+                        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#pledgeModal">Donate Now</button>
                     </span>
                     </div>
                     <div class="remind-me">
@@ -94,7 +99,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="project-creators card d-flex flex-column mb-4">
                 <div class="card-body">
                     <h5 class="card-title">Created by</h5>
@@ -104,7 +109,7 @@
                     </div>
                 </div>
             </div>
-    
+
             <div class="project-backers card d-flex flex-column mb-4">
                 <div class="card-body">
                     <h5 class="card-title">Recent fundings</h5>
@@ -120,6 +125,105 @@
         </div>
     </div>
 </div>
+
+<!-- close project modal -->
+
+<div class="modal fade" id="closeProjectModal" tabindex="-1" role="dialog" aria-labelledby="closeProjectLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="closeProjectModalLabel">Close project</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        (click)="toggleStatus(true)">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure to close the project?</p>
+                <small>Once the project closed, it cannot be reopen and will not be available to public to receive any
+                    funds.
+                </small>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="toggleStatus(true)">Not
+                    really
+                </button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="toggleStatus(false)">Close
+                    the project
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- pledge form modal -->
+<div class="modal fade" id="pledgeModal" tabindex="-1" role="dialog" aria-labelledby="pledgeModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="pledgeModalLabel">Support project</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group my-2 row">
+                        <label for="card-form-number" class="ml-2 col-4">Card number</label>
+                        <input type="text" class="form-control col-7" id="card-form-number"
+                               placeholder="4321 XXXX XXXX 1212">
+                    </div>
+                    <div class="form-group my-2 row">
+                        <label for="card-form-holder" class="ml-2 col-4">Card holder</label>
+                        <input type="text" class="form-control col-7" id="card-form-holder" placeholder="Steve Jobs">
+                    </div>
+                    <div class="form-group my-2 row">
+                        <label for="card-form-type" class="ml-2 col-4">Card type</label>
+                        <select class="form-control col-6" id="card-form-type">
+                            <option selected>Choose card type...</option>
+                            <option>Visa credit card</option>
+                            <option>Visa debit card</option>
+                            <option>Master credit card</option>
+                            <option>Master debit card</option>
+                            <option>American express credit card</option>
+                            <option>American express debit card</option>
+                        </select>
+                    </div>
+                    <div class="form-group my-2 row">
+                        <label for="card-form-expiration" class="ml-2 col-4">Expiration Date</label>
+                        <input type="text" class="form-control col-3" id="card-form-expiration" placeholder="MM/YYYY">
+                    </div>
+                    <div class="form-group my-2 row">
+                        <label for="card-form-csv" class="ml-2 col-4">Card CSV</label>
+                        <input type="text" class="form-control col-2" id="card-form-csv" placeholder="XXX">
+                    </div>
+                    <div class="form-group my-2 row">
+                        <label for="card-form-anonymous" class="ml-2 col-4">Pledge type</label>
+                        <label class="col-7 checkbox-form">
+                            <input type="checkbox" class="form-control" id="card-form-anonymous"
+                                   #anonymousCheck [checked]="!isLoggedIn()" [disabled]="!isLoggedIn()"> Anonymously
+                            <br/>
+                            <small *ngIf="!isLoggedIn()">To pledge under your name, please
+                                <a data-dismiss="modal" routerLink="/login">log in</a> first.
+                            </small>
+                        </label>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="sendPledge()">Confirm
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- project is not available to public -->
+
 <div class="container unavailable" *ngIf="!getProject()">
     <h1>Oops, the project is not available now :(</h1>
     <h5>Possible reasons:</h5>

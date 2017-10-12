@@ -22,8 +22,12 @@ export class ProjectDetailComponent implements OnInit {
 
     @ViewChild('uploadFile') uploadFileEle: ElementRef;
     @ViewChild('uploadText') uploadTextEle: ElementRef;
+
     @ViewChild('toggleOpen') toggleOpenEle: ElementRef;
     @ViewChild('toggleClose') toggleCloseEle: ElementRef;
+
+    @ViewChild('pledgeText') pledgeTextEle: ElementRef;
+    @ViewChild('anonymousCheck') anonymousCheckEle: ElementRef;
 
     constructor(private activatedRouter: ActivatedRoute,
                 private projectService: ProjectService,
@@ -52,20 +56,33 @@ export class ProjectDetailComponent implements OnInit {
         return null;
     }
 
-    donate(): void {
-
+    sendPledge(): void {
+        this.projectService.pledge(this.userService.userSubject.getValue(),
+            Number(this.pledgeTextEle.nativeElement.value),
+            this.anonymousCheckEle.nativeElement.checked,
+            this.project.getValue().id)
+            .then(res => console.log('Pledged successfully.'))
+            .catch(err => console.log(err));
     }
 
     toggleStatus(status: boolean): void {
-        this.projectService.toggleStatus(status,
-            this.project.getValue().id,
-            this.userService.userSubject.getValue().token)
-            .then(() => console.log('project toggled'))
-            .catch(err => {
-                this.toggleOpenEle.nativeElement.checked = !status;
-                this.toggleCloseEle.nativeElement.checked = status;
-                console.error(err);
-            });
+        if (status) {
+            this.toggleOpenEle.nativeElement.checked = status;
+            this.toggleCloseEle.nativeElement.checked = !status;
+        } else {
+            this.projectService.toggleStatus(status,
+                this.project.getValue().id,
+                this.userService.userSubject.getValue().token)
+                .then(() => {
+                    this.project.getValue().open = status;
+                    console.log('project toggled');
+                })
+                .catch(err => {
+                    this.toggleOpenEle.nativeElement.checked = !status;
+                    this.toggleCloseEle.nativeElement.checked = status;
+                    console.error(err);
+                });
+        }
     }
 
     uploadImage(): void {
@@ -88,8 +105,12 @@ export class ProjectDetailComponent implements OnInit {
         }
     }
 
+    isLoggedIn(): boolean {
+        return this.userService.isLoggedIn();
+    }
+
     isOwner(): boolean {
-        if (this.userService.isLoggedIn() && this.project.getValue()) {
+        if (this.isLoggedIn() && this.project.getValue()) {
             return _.some(this.project.getValue().creators, ['id', this.userService.userSubject.getValue().id]);
         }
         return false;

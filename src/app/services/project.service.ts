@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Project, ProjectBrief } from '../models/project';
+import {Injectable} from '@angular/core';
+import {environment} from '../../environments/environment';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {Project, ProjectBrief} from '../models/project';
+import {User} from '../models/user';
 
 @Injectable()
 export class ProjectService {
@@ -28,6 +29,27 @@ export class ProjectService {
         }
         return httpParams;
     }
+
+    pledge(user: User, amount: number, anonymous: boolean, pId: number): Promise<any> {
+        const body = {
+            id: user.id,
+            amount: amount,
+            anonymous: anonymous,
+            card: {
+                authToken: 'blah'
+            }
+        };
+        return new Promise((resolve, reject) => {
+            this.http.post(`${this.apiUrl}/${pId}/pledge`, body, {
+                observe: 'response',
+                headers: new HttpHeaders().append('x-authorization', user.token),
+                responseType: 'text'
+            }).subscribe(res => {
+                resolve(res.body);
+            }, err => reject(err));
+        });
+    }
+
 
     getProjectBriefs(searchOption: SearchOptions): Promise<ProjectBrief[]> {
         return new Promise<ProjectBrief[]>(((resolve, reject) => {

@@ -4,16 +4,16 @@
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    
+
     <div class="collapse navbar-collapse row" id="navbarSupportedContent">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" routerLink="/projects">CREATE PROJECTS<span class="sr-only">(current)</span></a>
+                <a class="nav-link" routerLink="/projects">EXPLORE PROJECTS</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" routerLink="/">SUPPORT PROJECTS</a>
+                <a class="nav-link" routerLink="/projects">CREATE PROJECTS</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="!user">
                 <a class="nav-link" routerLink="/signup">JOIN US</a>
             </li>
         </ul>
@@ -23,13 +23,34 @@
         <!--</form>-->
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link" [routerLink]="user ? '#' : '/login'">{{user ? 'Hi, ' + user.username : 'Log
+                <a class="nav-link" [routerLink]="user ? '/projects' : '/login'">{{user ? 'Hi, ' + user.username : 'Log
                     in'}}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="logout"
-                   *ngIf="user" (click)="logout()"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+                <a class="nav-link" id="logout" *ngIf="user" data-toggle="modal" data-target="#logoutModal">
+                    <i class="fa fa-sign-out" aria-hidden="true"></i>
+                </a>
             </li>
         </ul>
     </div>
 </nav>
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="logoutModalLabel">Log out</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure that you want to log out?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Not really</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="logout()">Log out</button>
+            </div>
+        </div>
+    </div>
+</div>
