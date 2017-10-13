@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { ProjectService, SearchOptions } from '../../services/project.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -23,6 +23,8 @@ export class ProjectsComponent implements OnInit {
 
     startIndex = 0;
     count = 12;
+
+    @ViewChild('searchText') searchTextEle: ElementRef;
 
     so: SearchOptions = {
         startIndex: this.startIndex,
@@ -49,6 +51,39 @@ export class ProjectsComponent implements OnInit {
         this.projectIds = [];
     }
 
+    hasKeywords(target: string, keywords: string[]): boolean {
+        return _.some(target.toLowerCase().split(/\W+/), word => {
+            return _.includes(keywords, word);
+        });
+    }
+
+    private keywordsFilter(projects: ProjectBrief[]): ProjectBrief[] {
+        const content = this.searchTextEle.nativeElement.value.trim();
+        if (!content) {
+            return projects;
+        }
+        const keywords = content.toLowerCase().split(/\W+/);
+        const res: ProjectBrief[] = [];
+        projects.forEach(p => {
+            const target = p.title + ' ' + p.subtitle;
+            if (this.hasKeywords(target, keywords)) {
+                res.push(p);
+            }
+        });
+        return res;
+    }
+
+    private dupProjectFilter(projects: ProjectBrief[]): ProjectBrief[] {
+        const result: ProjectBrief[] = [];
+        projects.forEach(p => {
+            if (!this.projectIds.includes(p.id)) {
+                this.projectIds.push(p.id);
+                result.push(p);
+            }
+        });
+        return result;
+    }
+
     getPledgedProjects(): void {
         this.resetSearchOptions();
         this.so.options = {backer: this.userService.userSubject.getValue().id};
@@ -67,24 +102,24 @@ export class ProjectsComponent implements OnInit {
         this.getProjects();
     }
 
+    private projectFilters(projects: ProjectBrief[]): ProjectBrief[] {
+        projects = this.dupProjectFilter(projects);
+        projects = this.keywordsFilter(projects);
+        return projects;
+    }
+
     private getProjects(): void {
         this.so.startIndex = this.startIndex;
         if (!this.reachedEnd) {
             this.isLoading = true;
             this.projectService.getProjectBriefs(this.so)
-                .then(res => {
-                    const newProjects = [];
-                    res.forEach(p => {
-                        if (!this.projectIds.includes(p.id)) {
-                            this.projectIds.push(p.id);
-                            newProjects.push(p);
-                        }
-                    });
-                    this.reachedEnd = newProjects.length === 0;
+                .then(projects => {
+                    this.reachedEnd = projects.length === 0;
+                    projects = this.projectFilters(projects);
                     this.isLoading = false;
                     this.startIndex += this.count;
                     const currentProjects = this.projects.getValue();
-                    this.projects.next(_.concat(currentProjects, newProjects));
+                    this.projects.next(_.concat(currentProjects, projects));
                 })
                 .catch(err => console.log(err));
         }

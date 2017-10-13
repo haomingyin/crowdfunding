@@ -7,7 +7,7 @@
         <div class="d-flex justify-content-start">
             <form class="form-inline search-form">
                 <input class="form-control mr-sm-2" type="text" placeholder="Key words in title or subtitle"
-                       aria-label="Search">
+                       aria-label="Search" #searchText>
                 <a role="button" class="btn btn-outline-primary search" *ngIf="!isLoggedIn()"
                    (click)="getPublicProjects()">
                     Search
