@@ -3,37 +3,44 @@
         <h1>Funding</h1>
         <p>The new lifestyle we are addicted to.</p>
     </div>
+    
     <div class="projects-search container">
-        <div class="d-flex justify-content-start">
-            <form class="form-inline search-form">
-                <input class="form-control mr-sm-2" type="text" placeholder="Key words in title or subtitle"
-                       aria-label="Search" #searchText>
-                <a role="button" class="btn btn-outline-primary search" *ngIf="!isLoggedIn()"
-                   (click)="getPublicProjects()">
-                    Search
-                </a>
-                <div class="btn-group" *ngIf="isLoggedIn()">
-                    <button type="button" class="btn btn-outline-primary dropdown-toggle search" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
+        <div class="row justify-content-between">
+            <div class="display-category mr-auto col-md-auto col-sm-12">
+                <h4>{{displayCategory}}</h4>
+            </div>
+            <div class="d-flex justify-content-start col-md-auto col-sm-12 mr-4">
+                <form class="form-inline search-form">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Key words in title or subtitle"
+                           aria-label="Search" #searchText>
+                    <a role="button" class="btn btn-outline-primary search" *ngIf="!isLoggedIn()"
+                       (click)="getPublicProjects()">
                         Search
-                    </button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" (click)="getPledgedProjects()">Projects I supported</a>
-                        <a class="dropdown-item" (click)="getCreatorProjects()">Projects I created</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" (click)="getPublicProjects()">All public projects</a>
+                    </a>
+                    <div class="btn-group" *ngIf="isLoggedIn()">
+                        <button type="button" class="btn btn-outline-primary dropdown-toggle search"
+                                data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                            Search
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" (click)="getPledgedProjects()">Projects I supported</a>
+                            <a class="dropdown-item" (click)="getCreatorProjects()">Projects I created</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" (click)="getPublicProjects()">All public projects</a>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
+    
     <div class="container projects-card d-flex flex-wrap">
-        <div class="card align-self-start" *ngFor="let project of projects | async">
+        <div class="card align-self-start mr-3 my-3" *ngFor="let project of projects | async">
             <img class="card-img-top" src="{{baseUrl + project.imageUri}}" alt="Card image cap"/>
             <div class="card-body">
                 <a class="card-title" routerLink="/projects/{{project.id}}">{{project.title}}</a>
                 <p class="card-text">{{project.subtitle}}</p>
-                <!--<a class="btn btn-primary" role="button">Go somewhere</a>-->
             </div>
         </div>
         <div
@@ -43,6 +50,7 @@
             (scrolled)="onScroll()">
         </div>
     </div>
+    
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 sign end-of-projects" *ngIf="reachedEnd">
@@ -53,6 +61,7 @@
             </div>
         </div>
     </div>
+    
     <div class="back-to-top">
         <a (click)="scrollToTop()">
             <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>

@@ -18,6 +18,7 @@ export class ProjectsComponent implements OnInit {
     projectIds: number[] = [];
     reachedEnd = false;
     isLoading = false;
+    displayCategory = 'All public projects';
 
     baseUrl = environment.apiUrl;
 
@@ -85,18 +86,21 @@ export class ProjectsComponent implements OnInit {
     }
 
     getPledgedProjects(): void {
+        this.displayCategory = 'Projects I pledged';
         this.resetSearchOptions();
         this.so.options = {backer: this.userService.userSubject.getValue().id};
         this.getProjects();
     }
 
     getCreatorProjects(): void {
+        this.displayCategory = 'Projects I created';
         this.resetSearchOptions();
         this.so.options = {creator: this.userService.userSubject.getValue().id};
         this.getProjects();
     }
 
     getPublicProjects(): void {
+        this.displayCategory = 'All public projects';
         this.resetSearchOptions();
         this.so.options = {open: true};
         this.getProjects();
