@@ -1,10 +1,11 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {LoginComponent} from './components/login/login.component';
-import {MainComponent} from './components/main/main.component';
-import {SignupComponent} from './components/signup/signup.component';
-import {ProjectsComponent} from './components/projects/projects.component';
-import {ProjectDetailComponent} from './components/project-detail/project-detail.component';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { LoginComponent } from './components/login/login.component';
+import { MainComponent } from './components/main/main.component';
+import { SignupComponent } from './components/signup/signup.component';
+import { ProjectsComponent } from './components/projects/projects.component';
+import { ProjectDetailComponent } from './components/project-detail/project-detail.component';
+import { CreateProjectComponent } from './components/create-project/create-project.component';
 
 const routes: Routes = [
     {path: '', component: MainComponent, pathMatch: 'full'},
@@ -12,6 +13,7 @@ const routes: Routes = [
     {path: 'signup', component: SignupComponent},
     {path: 'projects', component: ProjectsComponent},
     {path: 'projects/:id', component: ProjectDetailComponent},
+    {path: 'create', component: CreateProjectComponent},
     {path: '**', component: MainComponent}
 ];
 

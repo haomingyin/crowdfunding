@@ -1,0 +1,43 @@
+.create-project-page {
+    padding-bottom: 50px;
+    min-height: 1000px;
+
+    .banner {
+        height: 400px;
+        background: #0070FF;
+        background: -webkit-linear-gradient(to left, #00d2ff, #0070FF);
+        background: linear-gradient(to left, #00d2ff, #0070FF);
+        padding-top: 200px;
+        text-align: center;
+        color: white;
+        width: 100vw;
+    }
+
+    .page-title {
+        padding-top: 50px;
+        color: #5f5f5f;
+    }
+
+    .page-body {
+        color: #5f5f5f;
+
+        #rewards {
+            .reward {
+                height: 45px;
+                line-height: 45px;
+                background-color: #a7a7a7;
+                color: white;
+                padding: 0 20px;
+                border-radius: 5px;
+            }
+            .reward:hover {
+                cursor: pointer;
+                background-color: #7c7c7c;
+            }
+        }
+
+        .confirm-btn {
+            width: 100%;
+        }
+    }
+}

@@ -1,0 +1,100 @@
+<div class="create-project-page">
+    <div class="banner">
+        <h1>Funding</h1>
+        <p>The new lifestyle we are addicted to.</p>
+    </div>
+    <div class="container">
+        <div class="page-title my-4">
+            <h4>Create a new project</h4>
+        </div>
+        <div class="page-body my-4">
+            <form>
+                <div class="form-group row my-4">
+                    <label for="title" class="col-sm-1 col-form-label">Title</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="title" placeholder="Project title" required>
+                    </div>
+                </div>
+                <div class="form-group row my-4">
+                    <label for="subtitle" class="col-sm-1 col-form-label">Subtitle</label>
+                    <div class="col-sm-6">
+                        <textarea class="form-control" id="subtitle" placeholder="Project subtitle"
+                                  rows="2" required></textarea>
+                    </div>
+                </div>
+                <div class="form-group row my-4">
+                    <label for="target" class="col-sm-1 col-form-label">Target</label>
+                    <div class="col-sm-2 input-group">
+                        <span class="input-group-addon" id="basic-addon1">$</span>
+                        <input type="number" min="0" max="10000000" class="form-control" id="target"
+                               placeholder="1,000,000">
+                    </div>
+                </div>
+                <div class="form-group row my-4">
+                    <label for="description" class="col-sm-1 col-form-label">Description</label>
+                    <div class="col-sm-6">
+                        <textarea class="form-control" id="description" placeholder="Project description"
+                                  rows="5" required></textarea>
+                    </div>
+                </div>
+                <div class="form-group row my-4">
+                    <label for="rewards" class="col-sm-1 col-form-label">Rewards</label>
+                    <div class="col-sm-6 d-flex flex-wrap" id="rewards">
+                        <a class="reward mr-4 my-1">More than $30</a>
+                        <a class="reward mr-4 my-1">More than $100</a>
+                        <a class="reward mr-4 my-1">More than $500</a>
+                        <a class="reward mr-4 my-1">More than $1,000</a>
+                        <a class="reward mr-4 my-1">More than $1,500</a>
+                        <a class="reward mr-4 my-1" data-toggle="modal" data-target="#rewardModal">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                            More
+                        </a>
+                    </div>
+                </div>
+                <div class="form-group row my-4">
+                    <div class="col-sm-2">
+                        <button type="submit" class="confirm-btn btn btn-primary">Create</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- pledge form modal -->
+<div class="modal fade" id="rewardModal" tabindex="-1" role="dialog" aria-labelledby="rewardModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="rewardModalLabel">Edit reward</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group my-2 row">
+                        <label for="reward-amount" class="ml-2 col-3">Amount</label>
+                        <div class="col-8 input-group">
+                            <span class="input-group-addon">$</span>
+                            <input type="number" min="0" max="10000000" class="form-control" id="reward-amount"
+                                   placeholder="1,000,000">
+                        </div>
+                    </div>
+                    <div class="form-group my-2 row">
+                        <label for="reward-description" class="ml-2 col-3">Description</label>
+                        <div class="col-8 input-group">
+                            <textarea class="form-control" id="reward-description" rows="5" placeholder="Steve Jobs">
+                        </textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Delete</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
