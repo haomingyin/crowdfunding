@@ -16,9 +16,18 @@ export interface Project extends ProjectBrief {
     creationDate: number;
     target: number;
     creators: User[];
-    rewards?: Reward[];
+    rewards: Reward[];
     progress: Progress;
     backers: Backer[];
 }
 
-
+export interface ProjectNew {
+    title: string;
+    subtitle: string;
+    description: string;
+    target: number;
+    creators: {
+        id: number
+    }[];
+    rewards: Reward[];
+}

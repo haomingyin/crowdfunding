@@ -8,44 +8,47 @@
             <h4>Create a new project</h4>
         </div>
         <div class="page-body my-4">
-            <form>
+            <div class="prompt-group">
+                <p *ngIf="prompt.message != ''" [class]="prompt.type">{{prompt.message}}</p>
+            </div>
+            <form onsubmit="return false">
                 <div class="form-group row my-4">
-                    <label for="title" class="col-sm-1 col-form-label">Title</label>
+                    <label for="title" class="col-sm-2 col-md-1 col-form-label">Title</label>
                     <div class="col-sm-6">
-                        <input type="text" class="form-control" id="title" placeholder="Project title" required>
+                        <input type="text" class="form-control" id="title" placeholder="Project title" required
+                               #title>
                     </div>
                 </div>
                 <div class="form-group row my-4">
-                    <label for="subtitle" class="col-sm-1 col-form-label">Subtitle</label>
+                    <label for="subtitle" class="col-sm-2 col-md-1 col-form-label">Subtitle</label>
                     <div class="col-sm-6">
                         <textarea class="form-control" id="subtitle" placeholder="Project subtitle"
-                                  rows="2" required></textarea>
+                                  rows="2" required #subtitle></textarea>
                     </div>
                 </div>
                 <div class="form-group row my-4">
-                    <label for="target" class="col-sm-1 col-form-label">Target</label>
+                    <label for="target" class="col-sm-2 col-md-1 col-form-label">Target</label>
                     <div class="col-sm-2 input-group">
                         <span class="input-group-addon" id="basic-addon1">$</span>
                         <input type="number" min="0" max="10000000" class="form-control" id="target"
-                               placeholder="1,000,000">
+                               placeholder="100,000" #target>
                     </div>
                 </div>
                 <div class="form-group row my-4">
-                    <label for="description" class="col-sm-1 col-form-label">Description</label>
+                    <label for="description" class="col-sm-2 col-md-1 col-form-label">Description</label>
                     <div class="col-sm-6">
                         <textarea class="form-control" id="description" placeholder="Project description"
-                                  rows="5" required></textarea>
+                                  rows="5" required #description></textarea>
                     </div>
                 </div>
                 <div class="form-group row my-4">
-                    <label for="rewards" class="col-sm-1 col-form-label">Rewards</label>
+                    <label for="rewards" class="col-sm-2 col-md-1 col-form-label">Rewards</label>
                     <div class="col-sm-6 d-flex flex-wrap" id="rewards">
-                        <a class="reward mr-4 my-1">More than $30</a>
-                        <a class="reward mr-4 my-1">More than $100</a>
-                        <a class="reward mr-4 my-1">More than $500</a>
-                        <a class="reward mr-4 my-1">More than $1,000</a>
-                        <a class="reward mr-4 my-1">More than $1,500</a>
-                        <a class="reward mr-4 my-1" data-toggle="modal" data-target="#rewardModal">
+                        <a *ngFor="let reward of rewards; let i = index" data-toggle="modal" data-target="#rewardModal"
+                           (click)="editReward(i)" class="reward mr-4 my-1">More than
+                            ${{getPrettyMoney(reward.amount/100)}}</a>
+                        <a class="reward mr-4 my-1" data-toggle="modal" data-target="#rewardModal"
+                           (click)="addReward()">
                             <i class="fa fa-plus" aria-hidden="true"></i>
                             More
                         </a>
@@ -53,7 +56,9 @@
                 </div>
                 <div class="form-group row my-4">
                     <div class="col-sm-2">
-                        <button type="submit" class="confirm-btn btn btn-primary">Create</button>
+                        <button type="submit" class="confirm-btn btn btn-primary"
+                                #create (click)="clickCreate()">Create
+                        </button>
                     </div>
                 </div>
             </form>
@@ -79,21 +84,26 @@
                         <div class="col-8 input-group">
                             <span class="input-group-addon">$</span>
                             <input type="number" min="0" max="10000000" class="form-control" id="reward-amount"
-                                   placeholder="1,000,000">
+                                   placeholder="1,000,000" #rewardAmount>
                         </div>
                     </div>
                     <div class="form-group my-2 row">
                         <label for="reward-description" class="ml-2 col-3">Description</label>
                         <div class="col-8 input-group">
-                            <textarea class="form-control" id="reward-description" rows="5" placeholder="Steve Jobs">
+                            <textarea class="form-control" id="reward-description" rows="5"
+                                      placeholder="Reward description..." #rewardDescription>
                         </textarea>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Delete</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Confirm</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="clickDelete()"
+                        #rewardDelete>Delete
+                </button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="clickConfirm()"
+                        #rewardConfirm>Confirm
+                </button>
             </div>
         </div>
     </div>

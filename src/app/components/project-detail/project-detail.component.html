@@ -34,8 +34,8 @@
                             <div class="tab-pane fade" id="rewards" role="tabpanel"
                                  aria-labelledby="rewards-tab">
                                 <div class="reward-detail mb-4" *ngFor="let reward of p.rewards">
-                                    <p class="card-text reward-title">Pledge <strong>${{reward.amount/100}}</strong> or
-                                        more
+                                    <p class="card-text reward-title">Pledge <strong>${{getPrettyMoney(reward.amount/100)}}</strong>
+                                        or more
                                     </p>
                                     <p class="card-text">{{reward.description}}</p>
                                 </div>
@@ -45,7 +45,7 @@
                 </div>
             </div>
         </div>
-
+    
         <div class="project-brief col-md-5 d-flex flex-column">
             <div class="card align-self-start mb-4">
                 <div class="card-body">
@@ -104,7 +104,7 @@
                     </div>
                 </div>
             </div>
-
+        
             <div class="project-creators card d-flex flex-column mb-4">
                 <div class="card-body">
                     <h5 class="card-title">Created by</h5>
@@ -114,7 +114,7 @@
                     </div>
                 </div>
             </div>
-
+        
             <div class="project-backers card d-flex flex-column mb-4">
                 <div class="card-body">
                     <h5 class="card-title">Recent fundings</h5>

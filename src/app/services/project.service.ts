@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
-import {environment} from '../../environments/environment';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {Project, ProjectBrief} from '../models/project';
-import {User} from '../models/user';
+import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Project, ProjectBrief, ProjectNew } from '../models/project';
+import { User } from '../models/user';
 
 @Injectable()
 export class ProjectService {
@@ -102,6 +102,17 @@ export class ProjectService {
                 headers: new HttpHeaders().append('x-authorization', token),
                 responseType: 'text'
             }).subscribe(res => resolve(res.body),
+                err => reject(err));
+        }));
+    }
+
+    createProject(project: ProjectNew, token: string): Promise<any> {
+        return new Promise<any>(((resolve, reject) => {
+            this.http.post(`${this.apiUrl}`, project, {
+                observe: 'response',
+                headers: new HttpHeaders().append('x-authorization', token),
+                responseType: 'text'
+            }).subscribe(res => resolve(JSON.parse(res.body)),
                 err => reject(err));
         }));
     }

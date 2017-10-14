@@ -21,7 +21,29 @@
     .page-body {
         color: #5f5f5f;
 
+        .prompt-group {
+            font-size: 14px;
+            color: white;
+            p {
+                height: 40px;
+                line-height: 40px;
+                text-align: center;
+                width: 100%;
+                border-radius: 5px;
+            }
+            .error {
+                background-color: #E44234;
+            }
+            .normal {
+                background-color: #52AF52;
+            }
+            .info {
+                background-color: #ff9a35;
+            }
+        }
+
         #rewards {
+
             .reward {
                 height: 45px;
                 line-height: 45px;

@@ -120,7 +120,10 @@ export class UserService {
                         reject(res.body);
                     }
                     // TODO: err is any not HttpErrorResponse
-                }, err => reject(err.error));
+                }, err => {
+                    reject(err.error);
+                    this.removeUserSession();
+                });
             }
         });
     }
