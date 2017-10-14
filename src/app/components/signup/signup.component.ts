@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { UserService } from '../../services/user.service';
-import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-signup',
@@ -20,7 +20,7 @@ export class SignupComponent {
     prompt = {type: 'error', message: ''};
 
     constructor(private userService: UserService,
-                private location: Location) {
+                private router: Router) {
     }
 
     setCheckbox(val: boolean): void {
@@ -59,7 +59,7 @@ export class SignupComponent {
                 this.prompt.type = 'normal';
                 this.prompt.message = `Hi ${user.username}! Thanks for signing up :)`;
                 this.submitEle.nativeElement.disabled = false;
-                setTimeout(() => this.location.back(), 1000);
+                setTimeout(() => this.router.navigateByUrl('/projects'), 1000);
             })
             .catch(err => {
                 this.prompt.type = 'error';

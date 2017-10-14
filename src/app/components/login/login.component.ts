@@ -45,7 +45,7 @@ export class LoginComponent {
             .then(user => {
                 this.prompt.type = 'normal';
                 this.prompt.message = `Hi ${user.username}, welcome back.`;
-                setTimeout(() => this.location.back(), 1000);
+                setTimeout(() => this.location.back(), 500);
             })
             .catch(err => {
                 this.prompt.type = 'error';
