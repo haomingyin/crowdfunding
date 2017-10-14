@@ -39,6 +39,8 @@ export class LoginComponent {
         } else {
             credential['username'] = email;
         }
+        this.prompt.type = 'info';
+        this.prompt.message = 'We are processing your request...';
         this.userService.login(credential)
             .then(user => {
                 this.prompt.type = 'normal';

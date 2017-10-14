@@ -52,6 +52,8 @@ export class SignupComponent {
             body['location'] = this.locationEle.nativeElement.value;
         }
         this.submitEle.nativeElement.disabled = true;
+        this.prompt.type = 'info';
+        this.prompt.message = 'We are processing your request...';
         this.userService.signup(body)
             .then(user => {
                 this.prompt.type = 'normal';
