@@ -11,7 +11,7 @@
                 <a class="nav-link" routerLink="/projects">EXPLORE PROJECTS</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" routerLink="/create">CREATE PROJECTS</a>
+                <a class="nav-link" routerLink="{{user ? '/create' : 'login'}}">CREATE PROJECTS</a>
             </li>
             <li class="nav-item" *ngIf="!user">
                 <a class="nav-link" routerLink="/signup">JOIN US</a>

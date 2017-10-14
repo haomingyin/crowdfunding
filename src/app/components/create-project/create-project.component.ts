@@ -37,6 +37,11 @@ export class CreateProjectComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.userService.userSubject.subscribe(user => {
+            if (!user) {
+                this.router.navigateByUrl('login');
+            }
+        });
     }
 
     addReward(): void {
