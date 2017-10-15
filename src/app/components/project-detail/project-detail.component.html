@@ -3,6 +3,9 @@
         <h1>{{p.title}}</h1>
         <p>{{p.subtitle}}</p>
     </div>
+    <div class="prompt-group">
+        <p *ngIf="prompt.message != ''" [class]="prompt.type">{{prompt.message}}</p>
+    </div>
     <div class="row project-body justify-content-start">
         <div class="col-md-7 d-flex flex-column project-image">
             <img class="mb-4" *ngIf="p.imageUri" src="{{baseUri + p.imageUri}}">

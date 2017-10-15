@@ -23,6 +23,27 @@ $custom-file-text: (
         }
     }
 
+    .prompt-group {
+        font-size: 14px;
+        color: white;
+        p {
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            width: 100%;
+            border-radius: 5px;
+        }
+        .error {
+            background-color: #E44234;
+        }
+        .normal {
+            background-color: #52AF52;
+        }
+        .info {
+            background-color: #ff9a35;
+        }
+    }
+
     .project-body {
 
         .project-image img {

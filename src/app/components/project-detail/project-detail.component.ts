@@ -21,6 +21,12 @@ export class ProjectDetailComponent implements OnInit {
     baseUri = environment.apiUrl;
     anonymous = 'anonymous';
 
+    prompt = {type: 'error', message: ''};
+
+    ERROR = 'error';
+    SUCCESS = 'normal';
+    INFO = 'info';
+
     originBackers: Backer[];
 
     @ViewChild('uploadFile') uploadFileEle: ElementRef;
@@ -61,15 +67,22 @@ export class ProjectDetailComponent implements OnInit {
 
     sendPledge(): void {
         const amount = Math.round(this.pledgeTextEle.nativeElement.value * 100);
+        this.showPrompt(this.INFO, 'We are processing your pledge request...');
         if (amount > 0) {
             this.projectService.pledge(this.userService.userSubject.getValue(),
                 amount,
                 this.anonymousCheckEle.nativeElement.checked,
                 this.project.getValue().id)
-                .then(res => console.log('Pledged successfully.'))
-                .catch(err => console.log(err));
+                .then(res => {
+                    this.showPrompt(this.SUCCESS, 'You have successfully pledged the project');
+                    setTimeout(() => location.reload(), 1000);
+                })
+                .catch(err => {
+                    console.log(err);
+                    this.showPrompt(this.ERROR, 'Oops, something went wrong while we were processing your pledge request.');
+                });
         } else {
-            console.error('Pledge amount has to greater than 0');
+            this.showPrompt(this.ERROR, 'Pledge amount has to be greater than 0');
         }
     }
 
@@ -96,6 +109,7 @@ export class ProjectDetailComponent implements OnInit {
     uploadImage(): void {
         const files = this.uploadFileEle.nativeElement.files;
         const text = this.uploadTextEle.nativeElement;
+        this.showPrompt(this.INFO, 'We are uploading your image...');
         if (files.length > 0) {
             text.value = files[0].name;
             const reader = new FileReader();
@@ -105,9 +119,13 @@ export class ProjectDetailComponent implements OnInit {
                     this.project.getValue().id,
                     this.userService.userSubject.getValue().token)
                     .then(() => {
-                        location.reload();
+                        this.showPrompt(this.SUCCESS, 'The project image has been updated. Project will be refreshed soon...');
+                        setTimeout(() => location.reload(), 1000);
                     })
-                    .catch(err => console.error(err));
+                    .catch(err => {
+                        console.error(err);
+                        this.showPrompt(this.ERROR, 'Oops, something went wrong while we were processing your request.');
+                    });
             };
             reader.readAsArrayBuffer(files[0]);
         }
@@ -172,5 +190,14 @@ export class ProjectDetailComponent implements OnInit {
 
     getInitial(name: string): string {
         return name.split(' ').map(n => n[0].toUpperCase()).join('');
+    }
+
+    private showPrompt(type: string, msg: string): void {
+        this.prompt.type = type;
+        this.prompt.message = msg;
+    }
+
+    private dismissPrompt(): void {
+        this.prompt.message = '';
     }
 }
