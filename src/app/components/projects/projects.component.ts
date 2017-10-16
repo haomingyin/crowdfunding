@@ -63,9 +63,13 @@ export class ProjectsComponent implements OnInit {
     }
 
     hasKeywords(target: string, keywords: string[]): boolean {
-        return _.some(target.toLowerCase().split(/\W+/), word => {
-            return _.includes(keywords, word);
+        let count = 0;
+        keywords.forEach(keyword => {
+            if (_.some(target.toLowerCase().split(/\W+/), word => word === keyword)) {
+                count++;
+            }
         });
+        return count === keywords.length;
     }
 
     private keywordsFilter(projects: ProjectBrief[]): ProjectBrief[] {
@@ -138,6 +142,9 @@ export class ProjectsComponent implements OnInit {
                     this.startIndex += this.count;
                     const currentProjects = this.projects.getValue();
                     this.projects.next(_.concat(currentProjects, projects));
+                    if (!this.reachedEnd && projects.length < this.count) {
+                        this.getProjects();
+                    }
                 })
                 .catch(err => console.log(err));
         }

@@ -6,12 +6,14 @@
     <div class="container">
         <div class="page-title my-4">
             <h4>Create a new project</h4>
-            <small>* You will be able to add image once the project is created</small>
         </div>
         <div class="page-body my-4">
             <div class="prompt-group">
                 <p *ngIf="prompt.message != ''" [class]="prompt.type">{{prompt.message}}</p>
             </div>
+            <small>* You will be able to add image once the project is created</small>
+            <br>
+            <small>* At least one reward should be created (because the API requires)</small>
             <form onsubmit="return false">
                 <div class="form-group row my-4">
                     <label for="title" class="col-sm-2 col-md-1 col-form-label">Title</label>
@@ -79,7 +81,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form>
+                <form onsubmit="return false;">
                     <div class="form-group my-2 row">
                         <label for="reward-amount" class="ml-2 col-3">Amount</label>
                         <div class="col-8 input-group">

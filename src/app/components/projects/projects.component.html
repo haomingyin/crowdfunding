@@ -10,9 +10,9 @@
                 <h4>{{displayCategory}}</h4>
             </div>
             <div class="d-flex justify-content-start col-md-auto col-sm-12 mr-4">
-                <form class="form-inline search-form">
+                <form class="form-inline search-form" onsubmit="return false;">
                     <input class="form-control mr-sm-2" type="text" placeholder="Key words in title or subtitle"
-                           aria-label="Search" #searchText>
+                           aria-label="Search" #searchText (keyup.enter)="getPublicProjects()">
                     <a role="button" class="btn btn-outline-primary search" *ngIf="!isLoggedIn()"
                        (click)="getPublicProjects()">
                         Search
@@ -45,8 +45,8 @@
         </div>
         <div
             infinite-scroll
-            [infiniteScrollDistance]="1"
-            [infiniteScrollThrottle]="2000"
+            [infiniteScrollDistance]="2"
+            [infiniteScrollThrottle]="1000"
             (scrolled)="onScroll()">
         </div>
     </div>
