@@ -6,6 +6,7 @@ import { ProjectBrief } from '../../models/project';
 
 import _ from 'lodash';
 import { UserService } from '../../services/user.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app-projects',
@@ -23,7 +24,7 @@ export class ProjectsComponent implements OnInit {
     baseUrl = environment.apiUrl;
 
     startIndex = 0;
-    count = 12;
+    count = 4;
 
     @ViewChild('searchText') searchTextEle: ElementRef;
 
@@ -34,11 +35,20 @@ export class ProjectsComponent implements OnInit {
     };
 
     constructor(private projectService: ProjectService,
-                private userService: UserService) {
+                private userService: UserService,
+                private activatedRouter: ActivatedRoute) {
     }
 
     ngOnInit() {
-        this.getPublicProjects();
+        this.activatedRouter.queryParams.subscribe(params => {
+            if (params['creator']) {
+                this.getCreatorProjects();
+            } else if (params['backer']) {
+                this.getPledgedProjects();
+            } else {
+                this.getPublicProjects();
+            }
+        }, err => this.getPublicProjects());
     }
 
     onScroll(): void {
@@ -86,16 +96,20 @@ export class ProjectsComponent implements OnInit {
     }
 
     getPledgedProjects(): void {
-        this.displayCategory = 'Projects I pledged';
-        this.resetSearchOptions();
-        this.so.options = {backer: this.userService.userSubject.getValue().id};
+        if (this.isLoggedIn()) {
+            this.displayCategory = 'Projects I pledged';
+            this.resetSearchOptions();
+            this.so.options = {backer: this.userService.userSubject.getValue().id};
+        }
         this.getProjects();
     }
 
     getCreatorProjects(): void {
-        this.displayCategory = 'Projects I created';
-        this.resetSearchOptions();
-        this.so.options = {creator: this.userService.userSubject.getValue().id};
+        if (this.isLoggedIn()) {
+            this.displayCategory = 'Projects I created';
+            this.resetSearchOptions();
+            this.so.options = {creator: this.userService.userSubject.getValue().id};
+        }
         this.getProjects();
     }
 
