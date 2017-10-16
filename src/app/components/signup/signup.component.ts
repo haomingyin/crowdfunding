@@ -36,6 +36,15 @@ export class SignupComponent {
         return res;
     }
 
+    private validateEmail(email: string): boolean {
+        if (!new RegExp(/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/).test(email)) {
+            this.prompt.type = 'error';
+            this.prompt.message = 'Email address is invalid';
+            return false;
+        }
+        return true;
+    }
+
     signup(): void {
         if (!this.validatePassword()) {
             return;
@@ -45,7 +54,7 @@ export class SignupComponent {
             email: this.emailEle.nativeElement.value.trim(),
             password: this.passwordEle.nativeElement.value.trim(),
         };
-        if (!body.username || !body.email || !body.password) {
+        if (!body.username || !body.email || !body.password || !this.validateEmail(body.email)) {
             return;
         }
         if (this.locationEle.nativeElement.value.trim() !== '') {
