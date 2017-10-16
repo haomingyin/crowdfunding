@@ -37,7 +37,7 @@
     
     <div class="container projects-card d-flex flex-wrap">
         <div class="card align-self-start mr-3 my-3" *ngFor="let project of projects | async">
-            <img class="card-img-top" src="{{baseUrl + project.imageUri}}" alt="Card image cap"/>
+            <img class="card-img-top" src="{{baseUrl + project.imageUri}}" alt="No image available"/>
             <div class="card-body">
                 <a class="card-title" routerLink="/projects/{{project.id}}">{{project.title}}</a>
                 <p class="card-text">{{project.subtitle}}</p>

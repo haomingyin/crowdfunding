@@ -47,8 +47,12 @@
             img {
                 width: 260px;
                 height: 350px;
-                background-color: #969696;
+                background-color: #c9c9c9;
                 object-fit: cover;
+                line-height: 350px;
+                text-align: center;
+                color: #7c7c7c;
+                font-weight: 700;
             }
 
             .card-title {

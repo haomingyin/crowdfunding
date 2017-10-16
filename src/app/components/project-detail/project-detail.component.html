@@ -8,7 +8,7 @@
     </div>
     <div class="row project-body justify-content-start">
         <div class="col-md-7 d-flex flex-column project-image">
-            <img class="mb-4" *ngIf="p.imageUri" src="{{baseUri + p.imageUri}}">
+            <img class="mb-4" *ngIf="p.imageUri" src="{{baseUri + p.imageUri}}" alt="No image available">
             <div class="upload-wrapper mb-4" *ngIf="isOwner()">
                 <input type="text" placeholder="Upload a project image..." disabled #uploadText>
                 <a class="btn btn-outline-primary" role="button">Browse</a>
@@ -82,6 +82,8 @@
                                     close
                                 </label>
                             </div>
+                            <br>
+                            <small>* You can toggle the radio button to close the project permanently.</small>
                         </div>
                         <p class="closed" *ngIf="!p.open">Project status: <strong>Closed</strong></p>
                     </div>
