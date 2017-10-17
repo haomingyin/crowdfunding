@@ -20,6 +20,10 @@ $custom-file-text: (
         h1 {
             color: #5f5f5f;
             font-weight: 700;
+            word-wrap: break-word;
+        }
+        p {
+            word-wrap: break-word;
         }
     }
 

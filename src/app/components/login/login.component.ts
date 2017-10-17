@@ -1,6 +1,7 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { UserService } from '../../services/user.service';
-import { Location } from '@angular/common';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {UserService} from '../../services/user.service';
+import {Location} from '@angular/common';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-login',
@@ -8,7 +9,7 @@ import { Location } from '@angular/common';
     styleUrls: ['login.component.scss']
 })
 
-export class LoginComponent {
+export class LoginComponent implements OnInit {
     @ViewChild('email') emailEle: ElementRef;
     @ViewChild('password') passwordEle: ElementRef;
 
@@ -17,7 +18,14 @@ export class LoginComponent {
     altLoginMethod = 'Email';
 
     constructor(private userService: UserService,
-                private location: Location) {
+                private location: Location,
+                private router: Router) {
+    }
+
+    ngOnInit() {
+        if (this.userService.isLoggedIn()) {
+            this.router.navigateByUrl('projects', {queryParams: {creator: true}});
+        }
     }
 
     toggleLoginMethod() {

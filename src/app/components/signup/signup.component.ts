@@ -1,6 +1,6 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { UserService } from '../../services/user.service';
-import { Router } from '@angular/router';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {UserService} from '../../services/user.service';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-signup',
@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
     styleUrls: ['signup.component.scss']
 })
 
-export class SignupComponent {
+export class SignupComponent implements OnInit {
     @ViewChild('username') usernameEle: ElementRef;
     @ViewChild('email') emailEle: ElementRef;
     @ViewChild('password') passwordEle: ElementRef;
@@ -21,6 +21,12 @@ export class SignupComponent {
 
     constructor(private userService: UserService,
                 private router: Router) {
+    }
+
+    ngOnInit() {
+        if (this.userService.isLoggedIn()) {
+            this.router.navigateByUrl('projects', {queryParams: {creator: true}});
+        }
     }
 
     setCheckbox(val: boolean): void {

@@ -3,7 +3,7 @@
         <h1>Funding</h1>
         <p>The new lifestyle we are addicted to.</p>
     </div>
-    
+
     <div class="projects-search container">
         <div class="row justify-content-between">
             <div class="display-category mr-auto col-md-auto col-sm-12">
@@ -34,13 +34,17 @@
             </div>
         </div>
     </div>
-    
+
     <div class="container projects-card d-flex flex-wrap">
-        <div class="card align-self-start mr-3 my-3" *ngFor="let project of projects | async">
-            <img class="card-img-top" src="{{baseUrl + project.imageUri}}" alt="No image available"/>
+        <div class="card align-self-start mr-3 my-3" *ngFor="let p of projects | async">
+            <img class="card-img-top" src="{{baseUrl + p.imageUri}}" alt="No image available"/>
             <div class="card-body">
-                <a class="card-title" routerLink="/projects/{{project.id}}">{{project.title}}</a>
-                <p class="card-text">{{project.subtitle}}</p>
+                <a class="card-title" routerLink="/projects/{{p.id}}">
+                    {{p.title.length > 55 ? p.title.substring(0, 55) + '...' : p.title}}
+                </a>
+                <p class="card-text">
+                    {{p.subtitle.length > 180 ? p.subtitle.substring(0, 180) + '...' : p.subtitle}}
+                </p>
             </div>
         </div>
         <div
@@ -50,7 +54,7 @@
             (scrolled)="onScroll()">
         </div>
     </div>
-    
+
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 sign end-of-projects" *ngIf="reachedEnd">
@@ -61,7 +65,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="back-to-top">
         <a (click)="scrollToTop()">
             <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
